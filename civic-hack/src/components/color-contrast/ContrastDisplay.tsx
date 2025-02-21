@@ -61,7 +61,7 @@ export function ContrastDisplay({ foregroundColor, backgroundColor }: ContrastDi
   ];
 
   return (
-    <div className="flex items-end gap-8" style={{ color: accessibleColor }}>
+    <div className="flex items-start gap-8" style={{ color: accessibleColor }}>
       <div className="relative flex items-end justify-center w-64 h-64 pb-12">
         <div 
           className="absolute inset-0 rounded-lg"
@@ -74,37 +74,46 @@ export function ContrastDisplay({ foregroundColor, backgroundColor }: ContrastDi
           style={{ 
             color: foregroundColor,
             fontSize: '7rem',
-            lineHeight: '1'
+            lineHeight: '1',
+            marginLeft: '20px',
+            marginTop: '20px',
+            marginBottom: '10px',
+            marginRight: '20px'
           }}
         >
           Aa
         </span>
       </div>
       
-      <div className="text-4xl font-bold">
-        {isValidColors ? contrast.toFixed(2) : '---'}
-      </div>
+      <div className="flex flex-col gap-2">
+        <div 
+          className="font-bold"
+          style={{ fontSize: '3.5rem' }}
+        >
+          {isValidColors ? contrast.toFixed(2) : '---'}
+        </div>
 
-      <div className="flex gap-4 ml-auto">
-        {levelItems.map(({ label, text }) => (
-          <div key={label} className="flex flex-col items-center">
-            <div 
-              className="px-4 py-2 rounded-md flex items-center"
-              style={{ 
-                backgroundColor: isAALargePassing 
-                  ? (levels[label] === 'Pass' ? foregroundColor : accessibleColor)
-                  : (accessibleColor === '#000000' ? 'black' : 'white'),
-                color: isAALargePassing 
-                  ? backgroundColor
-                  : (accessibleColor === '#000000' ? 'white' : 'black')
-              }}
-            >
-              <span>{levels[label]}</span>
-              {levels[label] === 'Pass' ? <CheckIcon /> : <CrossIcon />}
+        <div className="flex gap-6">
+          {levelItems.map(({ label, text }) => (
+            <div key={label} className="flex flex-col items-center">
+              <div 
+                className="w-32 px-4 py-2 rounded-md flex items-center justify-center"
+                style={{ 
+                  backgroundColor: isAALargePassing 
+                    ? (levels[label] === 'Pass' ? foregroundColor : accessibleColor)
+                    : (accessibleColor === '#000000' ? 'black' : 'white'),
+                  color: isAALargePassing 
+                    ? backgroundColor
+                    : (accessibleColor === '#000000' ? 'white' : 'black')
+                }}
+              >
+                <span>{levels[label]}</span>
+                {levels[label] === 'Pass' ? <CheckIcon /> : <CrossIcon />}
+              </div>
+              <span className="mt-2 text-sm">{text}</span>
             </div>
-            <span className="mt-2 text-sm">{text}</span>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

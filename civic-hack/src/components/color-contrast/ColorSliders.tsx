@@ -43,33 +43,31 @@ export function ColorSliders({ values, hslValues, onChange, onHslChange, accessi
 
         input[type='range']::-webkit-slider-runnable-track {
           width: 100%;
-          height: 2px;
+          height: 4px;
           background: currentColor;
-          opacity: 0.3;
           border-radius: 9999px;
         }
 
         input[type='range']::-webkit-slider-thumb {
           -webkit-appearance: none;
-          height: 12px;
-          width: 12px;
+          height: 18px;
+          width: 18px;
           border-radius: 50%;
           background: currentColor;
-          margin-top: -5px;
+          margin-top: -7px;
           cursor: pointer;
         }
 
         input[type='range']::-moz-range-track {
           width: 100%;
-          height: 2px;
+          height: 4px;
           background: currentColor;
-          opacity: 0.3;
           border-radius: 9999px;
         }
 
         input[type='range']::-moz-range-thumb {
-          height: 12px;
-          width: 12px;
+          height: 18px;
+          width: 18px;
           border: none;
           border-radius: 50%;
           background: currentColor;
