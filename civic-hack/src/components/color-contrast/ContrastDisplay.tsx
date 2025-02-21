@@ -62,7 +62,7 @@ export function ContrastDisplay({ foregroundColor, backgroundColor }: ContrastDi
 
   return (
     <div className="flex items-start gap-8" style={{ color: accessibleColor }}>
-      <div className="relative flex items-end justify-center w-64 h-64 pb-12">
+      <div className="relative flex items-end justify-center w-56 h-36">
         <div 
           className="absolute inset-0 rounded-lg"
           style={{ 

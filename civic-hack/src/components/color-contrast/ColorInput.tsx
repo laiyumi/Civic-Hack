@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { isHex } from '@/utils/color-utils';
 
 interface ColorInputProps {
@@ -15,13 +14,11 @@ export function ColorInput({ label, value, onChange, onValidHex, accessibleColor
     const newValue = e.target.value;
     onChange?.(newValue);
 
-    // 确保输入以#开头并且是有效的十六进制颜色
     if (newValue.startsWith('#') && isHex(newValue)) {
       onValidHex?.(newValue);
     }
   };
 
-  // 添加输入验证状态的视觉反馈
   const isValidHex = value.startsWith('#') && isHex(value);
 
   return (
@@ -37,9 +34,7 @@ export function ColorInput({ label, value, onChange, onValidHex, accessibleColor
           type="text"
           value={value}
           onChange={handleChange}
-          className={`w-full px-4 py-2 bg-transparent rounded-lg border-2 text-2xl font-bold ${
-            value && !isValidHex ? 'border-red-500' : 'border-current'
-          }`}
+          className="w-full px-4 py-2 bg-transparent rounded-lg border-2 border-current text-2xl font-bold"
           placeholder="#000000"
         />
         <button 
@@ -61,11 +56,6 @@ export function ColorInput({ label, value, onChange, onValidHex, accessibleColor
             Switch Colors
           </button>
         </div>
-      )}
-      {value && !isValidHex && (
-        <p className="text-sm text-red-500">
-          Please enter a valid hex color (e.g., #FF0000)
-        </p>
       )}
     </div>
   );
