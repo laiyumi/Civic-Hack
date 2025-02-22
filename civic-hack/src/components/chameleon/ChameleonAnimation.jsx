@@ -3,16 +3,11 @@
 import React, { useState, useEffect } from "react";
 import Lottie from "lottie-react";
 import chroma from "chroma-js";
-import animationData from "./../../public/RunningChameleon.json";
+import animationData from "../../../public/RunningChameleon.json";
 
 const ChameleonAnimation = ({ color }) => {
-  // const [Lottie, setLottie] = useState(null);
 
   const [modifiedAnimation, setModifiedAnimation] = useState(animationData);
-
-  // useEffect(() => {
-  //   import("lottie-react").then((module) => setLottie(() => module.default));
-  // }, []);
 
   useEffect(() => {
     if (!color) return;
@@ -52,8 +47,6 @@ const ChameleonAnimation = ({ color }) => {
 
     setModifiedAnimation(newAnimation);
   }, [color]);
-
-  // if (!Lottie) return null;
 
   return <Lottie animationData={modifiedAnimation} loop autoplay />;
 };
