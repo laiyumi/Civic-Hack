@@ -2,22 +2,39 @@
 
 import { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
+
+// import BatAnimation from "@/components/bat/BatAnimation";
 import ScreenReaderSimulator from "@/components/bat/ScreenReaderSimulator";
-import BatAnimation from "@/components/bat/BatAnimation";
+// import Lottie from "lottie-react";
+import nightAnimation from "../../../public/night.json";
 
 const initialCode = `<form>
-  <input type="text" id="name" placeholder="Your name">
-  <input type="email" id="email" placeholder="Your email">
+  <input type="text" id="name" />
+  <input type="email" id="email" />
 </form>`;
+
+const Lottie = dynamic(() => import("lottie-react"), {
+  ssr: false,
+});
+
+const BatAnimation = dynamic(() => import("@/components/bat/BatAnimation"), {
+  ssr: false,
+});
 
 export default function FormLabelsGame() {
   const [code, setCode] = useState(initialCode);
   const [isValid, setIsValid] = useState("exploring");
   const [codeValidated, setCodeValidated] = useState(false);
-  const [batPosition, setBatPosition] = useState({ x: 0, y: 0 });
+  const [batPosition, setBatPosition] = useState(null);
   const [screenReaderMessage, setScreenReaderMessage] = useState("");
+  const [isClient, setIsClient] = useState(false);
   const rightPanelRef = useRef(null);
   const batRef = useRef(null);
+
+  useEffect(() => {
+    setIsClient(true);
+    setBatPosition({ x: 0, y: 0 });
+  }, []);
 
   const hasLabelForInput = (inputId) => {
     const labelRegex = new RegExp(`<label[^>]*for=["']${inputId}["'][^>]*>`);
@@ -119,84 +136,195 @@ export default function FormLabelsGame() {
   };
 
   return (
-    <div className="flex h-screen bg-purple-100 p-5">
-      {/* Left Panel - Code Editor */}
-      <div className="w-1/2 bg-gray-900 text-white p-5 rounded-md shadow-md">
-        <h2 className="text-xl font-bold mb-3">
-          Help Blinky the Bat Navigate the Form!
-        </h2>
-        <p className="text-sm mb-3">
-          Blinky, the screen reader bat, is struggling to understand this form.
-          Add labels so Blinky can "see" the fields properly.
-        </p>
-        <textarea
-          className="w-full h-40 p-3 bg-gray-800 text-green-300 font-mono text-sm rounded-md"
-          value={code}
-          onChange={(e) => {
-            setCode(e.target.value);
-            setCodeValidated(false);
-          }}
-        />
-        <button
-          onClick={validateCode}
-          className="mt-3 px-4 py-2 bg-green-500 text-white rounded-md"
-        >
-          Run Code
-        </button>
-        <p className="mt-3 text-yellow-300">
-          {!codeValidated
-            ? "🦇 Click 'Run Code' to check your labels!"
-            : isValid === "valid"
-            ? "✅ Blinky can now read the form!"
-            : isValid === "invalid"
-            ? "⚠️ Blinky is confused! Add <label> tags."
-            : "🦇 Blinky is exploring the form..."}
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Header Section */}
+        <header className="text-center relative">
+          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 pt-8 mb-4">
+            Echoes of Accessibility: 🦇 Help Blinky "See" the Form!
+          </h1>
+          <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            Bats use echolocation—sending out sound waves and listening for
+            echoes—to navigate the dark. 🦇 Blinky is no different! But instead
+            of sound waves, he uses a screen reader to "See" the form.
+          </p>
+        </header>
 
-      {/* Right Panel */}
-      <div
-        ref={rightPanelRef}
-        className="w-1/2 flex flex-col items-center justify-center relative p-8"
-      >
-        {/* Input Elements */}
-        <div className="absolute top-48 flex flex-col gap-48 w-80">
-          <input
-            type="text"
-            id="name"
-            // placeholder="Name"
-            className="p-2 border rounded-md"
-          />
-          <input
-            type="email"
-            id="email"
-            // placeholder="Email"
-            className="p-2 border rounded-md"
-          />
-        </div>
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-16rem)]">
+          {/* Control Panel */}
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-gray-700 h-full">
+            <div className="p-6">
+              <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed pb-4">
+                Right now, Blinky's echoes aren't bouncing back because the form
+                is missing labels—just like how a bat would be lost in total
+                silence. Help Blinky find his way!
+              </p>
+              <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed pb-4">
+                Use the{" "}
+                <code className="text-yellow-400 font-mono">&lt;label&gt;</code>{" "}
+                element to explicitly associate text with form inputs. The{" "}
+                <code className="text-yellow-400 font-mono">for</code> attribute
+                must match the input's{" "}
+                <code className="text-yellow-400 font-mono">id</code>.
+              </p>
+              {/* Code Editor */}
+              <div className="bg-gray-900/80 rounded-lg overflow-hidden mb-6">
+                <div className="flex items-center justify-between px-4 py-2 bg-gray-800/50">
+                  <div className="flex items-center space-x-2">
+                    <div className="flex space-x-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2 text-sm text-gray-400">
+                    <span className="px-2 py-1 rounded bg-gray-700/50">
+                      form.html
+                    </span>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <textarea
+                    value={code}
+                    onChange={(e) => {
+                      setCode(e.target.value);
+                      setCodeValidated(false);
+                    }}
+                    className="w-full h-40 bg-transparent text-green-400 font-mono text-sm focus:outline-none"
+                    spellCheck="false"
+                  />
+                </div>
+              </div>
 
-        {/* Bat Animation */}
-        <div
-          ref={batRef}
-          style={{
-            position: "absolute",
-            left: `${batPosition.x}px`,
-            top: `${batPosition.y}px`,
-            transition: "all 1.5s ease-in-out",
-          }}
-        >
-          <BatAnimation isValid={isValid} message={screenReaderMessage} />
-        </div>
+              {/* Controls */}
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <button
+                    onClick={validateCode}
+                    className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 
+                      text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02]
+                      hover:shadow-lg hover:shadow-blue-500/25 active:scale-[0.98]"
+                  >
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="w-5 h-5 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      Run Code
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setCode(initialCode);
+                      setCodeValidated(false);
+                    }}
+                    className="bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-6 rounded-lg 
+                      transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg 
+                      hover:shadow-gray-500/25 active:scale-[0.98]"
+                  >
+                    Reset
+                  </button>
+                </div>
+                {/* 
+                <div className="bg-gray-900/50 rounded-lg p-4">
+                  <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                    🦇 Click 'Run Code' to check your labels!
+                  </p>
+                </div> */}
 
-        {screenReaderMessage && (
-          <div className="absolute top-4 right-4 bg-gray-800 text-white p-2 rounded-md">
-            {screenReaderMessage}
+                {/* <ScreenReaderSimulator isValid={isValid === "valid"} /> */}
+              </div>
+            </div>
           </div>
-        )}
 
-        {/* <div className="absolute bottom-4">
-          <ScreenReaderSimulator isValid={isValid} />
-        </div> */}
+          {/* Preview Panel */}
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-gray-700 h-full">
+            <div className="relative h-full">
+              <div
+                ref={rightPanelRef}
+                className="absolute inset-0 flex flex-col items-center justify-center p-8"
+              >
+                {/* Night Animation Background */}
+                <div className="absolute inset-0 bg-[#042330]">
+                  <Lottie
+                    animationData={nightAnimation}
+                    loop
+                    style={{
+                      position: "absolute",
+                      top: "-100%",
+                      left: "-100%",
+                      width: "300%",
+                      height: "300%",
+                      pointerEvents: "none",
+                      opacity: 0.8,
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+
+                {/* Form Preview */}
+                <div className="relative z-10 w-64 space-y-28 mb-8">
+                  <input
+                    type="text"
+                    id="name"
+                    className="w-full p-2 rounded border border-gray-300 bg-white/90"
+                  />
+                  <input
+                    type="email"
+                    id="email"
+                    className="w-full p-2 rounded border border-gray-300 bg-white/90"
+                  />
+                </div>
+
+                {/* Bat Animation */}
+                {isClient && batPosition && (
+                  <div
+                    ref={batRef}
+                    style={{
+                      position: "absolute",
+                      left: `${batPosition.x}px`,
+                      top: `${batPosition.y}px`,
+                      transition: "all 1.5s ease-in-out",
+                      zIndex: 20,
+                    }}
+                  >
+                    <BatAnimation
+                      isValid={isValid}
+                      message={screenReaderMessage}
+                    />
+                  </div>
+                )}
+
+                {/* Status Message - Now at the bottom */}
+                <div className="absolute bottom-4 left-0 right-0 mx-auto w-max bg-black rounded-lg p-4">
+                  <p className="text-sm text-gray-300">
+                    {isValid === "valid"
+                      ? "✅ Blinky can now read the form!"
+                      : isValid === "invalid"
+                      ? "⚠️ Blinky is confused! Add <label> tags to help Blinky."
+                      : "🦇 Blinky is exploring the form..."}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

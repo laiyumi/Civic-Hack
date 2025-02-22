@@ -1,8 +1,11 @@
 "use client";
 
 import React, { useEffect } from "react";
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
 import batFlyingAnimation from "../../../public/FlyingBat.json";
+
+// Dynamically import Lottie with SSR disabled
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const BatAnimation = ({ isValid, message }) => {
   useEffect(() => {
@@ -32,12 +35,12 @@ const BatAnimation = ({ isValid, message }) => {
   const getAnimationStyle = () => {
     switch (isValid) {
       case "valid":
-        return "translate-y-0 opacity-100";
+        return "translate-y-0 scale-110 animate-[scale_2s_ease-in-out_infinite]";
       case "invalid":
-        return "translate-y-4 opacity-50";
+        return "translate-y-4 scale-75";
       case "exploring":
       default:
-        return "translate-y-2 opacity-75";
+        return "translate-y-2 scale-90";
     }
   };
 
@@ -60,7 +63,6 @@ const BatAnimation = ({ isValid, message }) => {
         loop
         className={`w-32 transition-transform ${getAnimationStyle()}`}
       />
-      <p className="text-sm mt-2 text-gray-700">{getMessage()}</p>
     </div>
   );
 };
