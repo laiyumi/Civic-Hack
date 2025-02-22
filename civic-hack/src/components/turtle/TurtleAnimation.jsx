@@ -1,18 +1,33 @@
 "use client";
 
-import React from "react";
-import Lottie from "lottie-react";
-import turtleAnimationData from "./../../public/Turtle.json"; // Replace with actual turtle animation
+import { useEffect, useRef } from 'react';
+import lottie from 'lottie-web';
+import animationData from '../../../public/Turtle.json';
 
-const TurtleAnimation = () => {
+export default function TurtleAnimation() {
+  const containerRef = useRef(null);
+  const animationRef = useRef(null);
+
+  useEffect(() => {
+    if (!animationRef.current) {
+      animationRef.current = lottie.loadAnimation({
+        container: containerRef.current,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+      });
+    }
+
+    return () => {
+      if (animationRef.current) {
+        animationRef.current.destroy();
+        animationRef.current = null;
+      }
+    };
+  }, []);
+
   return (
-    <Lottie
-      animationData={turtleAnimationData}
-      loop
-      autoplay
-      className="w-24 h-24 absolute top-0 left-10"
-    />
+    <div ref={containerRef} className="absolute top-6 right-6 w-32 h-32" />
   );
-};
-
-export default TurtleAnimation;
+}

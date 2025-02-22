@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .animate-spin-slow {
+    animation: spin 3s linear infinite;
+  }
+
+  .animate-turtle-crawl {
+    animation: turtle-crawl 20s linear infinite;
+  }
+}
+
+@keyframes turtle-crawl {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes turtle-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.turtle-active {
+  animation: turtle-bounce 1s ease-in-out infinite;
+}
+
+.prose-teal {
+  --tw-prose-links: theme('colors.teal.400');
+  --tw-prose-invert-links: theme('colors.teal.400');
+} 
