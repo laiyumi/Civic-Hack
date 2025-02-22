@@ -31,7 +31,7 @@ const MenuNavigation = ({ isValid }) => {
 
   return (
     <ul id="menu" className="bg-white shadow-lg p-5 rounded-md w-64">
-      {["Home", "About", "Contact"].map((item, index) => (
+      {["Travel", "Catch Fish", "A"].map((item, index) => (
         <li
           key={index}
           ref={(el) => (menuItemsRef.current[index] = el)}
