@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { ColorSliders } from "@/components/chameleon/ColorSliders";
 import { ContrastBadge } from "@/components/chameleon/ContrastBadge";
 import { isHex } from "@/utils/color-utils";
+import { useRouter } from "next/navigation";
 
 // Dynamically import ChameleonAnimation to prevent SSR issues
 const ChameleonAnimation = dynamic(
@@ -15,10 +16,11 @@ const ChameleonAnimation = dynamic(
 // Initial color values
 const INITIAL_COLORS = {
   chameleon: "#237191",
-  environment: "#042330"
+  environment: "#042330",
 };
 
 export default function AccessibilityChallenge() {
+  const router = useRouter();
   const [chameleonColor, setChameleonColor] = useState("#237191");
   const [environmentColor, setEnvironmentColor] = useState("#042330");
   const [chameleonInput, setChameleonInput] = useState("#237191");
@@ -59,20 +61,27 @@ export default function AccessibilityChallenge() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header Section */}
+        {/* Header Section - Added Next button */}
         <header className="text-center relative">
-          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 pt-8 mb-4">
-            🦎 Accessibility Challenge: Chameleon Mode!
+          <div className="inline-block px-3 py-1 mb-1 text-sm font-medium text-white rounded-full bg-gradient-to-r from-blue-500 to-blue-600">
+            Level 1
+          </div>
+          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#5390b0] to-[#97c7e1] pt-8 mb-2">
+            🦎 Welcome to A11Y Zoo: Chameleon Mode!
           </h1>
+
           <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
             Help our chameleon blend into its environment while staying{" "}
-            <span className="font-semibold text-blue-400 hover:text-blue-300 transition-colors cursor-help" 
-              title="Web Content Accessibility Guidelines">
+            <span
+              className="font-semibold text-blue-400 hover:text-blue-300 transition-colors cursor-help"
+              title="Web Content Accessibility Guidelines"
+            >
               WCAG 2.1 compliant
             </span>
             ! Can you strike the perfect balance between{" "}
             <span className="font-semibold text-green-400">visibility</span> and{" "}
-            <span className="font-semibold text-purple-400">accessibility</span>?
+            <span className="font-semibold text-purple-400">accessibility</span>
+            ?
           </p>
         </header>
 
@@ -92,12 +101,16 @@ export default function AccessibilityChallenge() {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2 text-sm text-gray-400">
-                    <span className="px-2 py-1 rounded bg-gray-700/50">style.css</span>
+                    <span className="px-2 py-1 rounded bg-gray-700/50">
+                      style.css
+                    </span>
                   </div>
                 </div>
                 <div className="p-4 font-mono text-sm">
                   <div className="text-gray-300">
-                    <p><span className="text-blue-400">.chameleon</span> {"{"}</p>
+                    <p>
+                      <span className="text-blue-400">.chameleon</span> {"{"}
+                    </p>
                     <div className="pl-6 space-y-4">
                       <div className="flex items-center group">
                         <span className="text-purple-400">color:</span>
@@ -110,7 +123,7 @@ export default function AccessibilityChallenge() {
                               transition-all duration-200 w-28 font-mono group-hover:w-32"
                             placeholder="#000000"
                           />
-                          <div 
+                          <div
                             className="w-4 h-4 rounded absolute right-2 top-1/2 -translate-y-1/2"
                             style={{ backgroundColor: chameleonColor }}
                           ></div>
@@ -118,7 +131,9 @@ export default function AccessibilityChallenge() {
                         <span className="text-gray-500">;</span>
                       </div>
                       <div className="flex items-center group">
-                        <span className="text-purple-400">background-color:</span>
+                        <span className="text-purple-400">
+                          background-color:
+                        </span>
                         <div className="relative ml-2">
                           <input
                             type="text"
@@ -128,7 +143,7 @@ export default function AccessibilityChallenge() {
                               transition-all duration-200 w-28 font-mono group-hover:w-32"
                             placeholder="#ffffff"
                           />
-                          <div 
+                          <div
                             className="w-4 h-4 rounded absolute right-2 top-1/2 -translate-y-1/2"
                             style={{ backgroundColor: environmentColor }}
                           ></div>
@@ -151,8 +166,18 @@ export default function AccessibilityChallenge() {
                       hover:shadow-lg hover:shadow-blue-500/25 active:scale-[0.98]"
                   >
                     <span className="flex items-center justify-center">
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                      <svg
+                        className="w-5 h-5 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+                        />
                       </svg>
                       Swap Colors
                     </span>
@@ -165,15 +190,28 @@ export default function AccessibilityChallenge() {
                       hover:shadow-lg hover:shadow-purple-500/25 active:scale-[0.98]"
                   >
                     <span className="flex items-center justify-center">
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      <svg
+                        className="w-5 h-5 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        />
                       </svg>
                       Reset Colors
                     </span>
                   </button>
                 </div>
 
-                <ContrastBadge bgColor={environmentColor} fgColor={chameleonColor} />
+                <ContrastBadge
+                  bgColor={environmentColor}
+                  fgColor={chameleonColor}
+                />
 
                 <div className="grid grid-cols-2 gap-4">
                   <ColorSliders
@@ -184,7 +222,7 @@ export default function AccessibilityChallenge() {
                     }}
                     label="Chameleon Color"
                   />
-                  
+
                   <ColorSliders
                     color={environmentColor}
                     onChange={(color) => {
@@ -207,7 +245,7 @@ export default function AccessibilityChallenge() {
               >
                 <div className="relative w-full h-full flex items-center justify-center">
                   <ChameleonAnimation color={chameleonColor} />
-                  <p 
+                  <p
                     className="absolute bottom-8 text-2xl font-bold tracking-wide"
                     style={{ color: chameleonColor }}
                   >
@@ -217,6 +255,31 @@ export default function AccessibilityChallenge() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Added Next button at bottom */}
+        <div className="flex justify-end mt-8">
+          <button
+            onClick={() => router.push("/bat")}
+            className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 
+              text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02]
+              hover:shadow-lg hover:shadow-purple-500/25 active:scale-[0.98] flex items-center"
+          >
+            Next
+            <svg
+              className="w-4 h-4 ml-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>

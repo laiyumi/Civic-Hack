@@ -2,10 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
-// import BatAnimation from "@/components/bat/BatAnimation";
 import ScreenReaderSimulator from "@/components/bat/ScreenReaderSimulator";
-// import Lottie from "lottie-react";
 import nightAnimation from "../../../public/night.json";
 
 const initialCode = `<form>
@@ -22,6 +21,8 @@ const BatAnimation = dynamic(() => import("@/components/bat/BatAnimation"), {
 });
 
 export default function FormLabelsGame() {
+  const router = useRouter();
+
   const [code, setCode] = useState(initialCode);
   const [isValid, setIsValid] = useState("exploring");
   const [codeValidated, setCodeValidated] = useState(false);
@@ -212,20 +213,29 @@ export default function FormLabelsGame() {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header Section */}
         <header className="text-center relative">
+          <div className="inline-block px-3 py-1 mb-1 text-sm font-medium text-white bg-purple-600 rounded-full">
+            Level 2
+          </div>
           <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 pt-8 mb-4">
             Echoes of Accessibility: 🦇 Help Blinky "See" the Form!
           </h1>
-          <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Bats use echolocation—sending out sound waves and listening for
-            echoes—to navigate the dark. 🦇 Blinky is no different! But instead
-            of sound waves, he uses a screen reader to "See" the form.
-          </p>
+          <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed"></p>
+          <div className="max-w-4xl mx-auto mb-12 text-center relative">
+            <div className="relative backdrop-blur-sm bg-white/5 rounded-2xl p-6 border border-white/10 shadow-xl">
+              <p className="text-teal-100 text-lg mb-4 leading-relaxed">
+                Bats use echolocation—sending out sound waves and listening for
+                echoes—to navigate the dark. 🦇 Blinky is no different! But
+                instead of sound waves, he uses a screen reader to "See" the
+                form.
+              </p>
+            </div>
+          </div>
         </header>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-16rem)]">
-          {/* Control Panel */}
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-gray-700 h-full">
+        {/* Main Content - Updated grid and height classes */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:h-[calc(100vh-16rem)] h-auto">
+          {/* Control Panel - Updated height classes */}
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-gray-700 h-auto lg:h-full">
             <div className="p-6">
               <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed pb-4">
                 Right now, Blinky's echoes aren't bouncing back because the form
@@ -342,8 +352,8 @@ export default function FormLabelsGame() {
             </div>
           </div>
 
-          {/* Preview Panel */}
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-gray-700 h-full">
+          {/* Preview Panel - Updated height classes */}
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-gray-700 h-[500px] lg:h-full">
             <div className="relative h-full">
               <div
                 ref={rightPanelRef}
@@ -358,9 +368,9 @@ export default function FormLabelsGame() {
                       style={{
                         position: "absolute",
                         top: "-100%",
-                        left: "-100%",
-                        width: "300%",
-                        height: "300%",
+                        left: "-120%",
+                        width: "290%",
+                        height: "290%",
                         pointerEvents: "none",
                         opacity: 0.8,
                         objectFit: "cover",
@@ -416,7 +426,29 @@ export default function FormLabelsGame() {
             </div>
           </div>
         </div>
-
+        <div className="flex justify-end mt-8">
+          <button
+            onClick={() => router.push("/turtle")}
+            className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 
+              text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02]
+              hover:shadow-lg hover:shadow-purple-500/25 active:scale-[0.98] flex items-center"
+          >
+            Next
+            <svg
+              className="w-4 h-4 ml-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
         {/* Replace the checkbox with this toggle button */}
       </div>
     </div>
