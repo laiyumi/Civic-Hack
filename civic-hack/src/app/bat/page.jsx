@@ -2,10 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
-// import BatAnimation from "@/components/bat/BatAnimation";
 import ScreenReaderSimulator from "@/components/bat/ScreenReaderSimulator";
-// import Lottie from "lottie-react";
 import nightAnimation from "../../../public/night.json";
 
 const initialCode = `<form>
@@ -22,6 +21,8 @@ const BatAnimation = dynamic(() => import("@/components/bat/BatAnimation"), {
 });
 
 export default function FormLabelsGame() {
+  const router = useRouter();
+
   const [code, setCode] = useState(initialCode);
   const [isValid, setIsValid] = useState("exploring");
   const [codeValidated, setCodeValidated] = useState(false);
@@ -212,6 +213,9 @@ export default function FormLabelsGame() {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header Section */}
         <header className="text-center relative">
+          <div className="inline-block px-3 py-1 mb-1 text-sm font-medium text-white bg-purple-600 rounded-full">
+            Level 2
+          </div>
           <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 pt-8 mb-4">
             Echoes of Accessibility: 🦇 Help Blinky "See" the Form!
           </h1>
@@ -422,7 +426,29 @@ export default function FormLabelsGame() {
             </div>
           </div>
         </div>
-
+        <div className="flex justify-end mt-8">
+          <button
+            onClick={() => router.push("/turtle")}
+            className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 
+              text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02]
+              hover:shadow-lg hover:shadow-purple-500/25 active:scale-[0.98] flex items-center"
+          >
+            Next
+            <svg
+              className="w-4 h-4 ml-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
         {/* Replace the checkbox with this toggle button */}
       </div>
     </div>
