@@ -263,7 +263,7 @@ export default function FormLabelsGame() {
                       setCode(e.target.value);
                       setCodeValidated(false);
                     }}
-                    className="w-full h-40 bg-transparent text-green-400 font-mono text-sm focus:outline-none"
+                    className="w-full h-32 bg-transparent text-green-400 font-mono text-sm focus:outline-none"
                     spellCheck="false"
                   />
                 </div>
@@ -313,7 +313,7 @@ export default function FormLabelsGame() {
                     Reset
                   </button>
                 </div>
-                <div className="mt-4 flex items-center justify-between bg-gray-900/50 rounded-lg p-4">
+                <div className="mt-4 flex items-center justify-between p-4">
                   <span className="text-gray-300">Blinky's Movement Mode:</span>
                   <div className="flex items-center space-x-2">
                     <button
