@@ -30,10 +30,11 @@ export default function FormLabelsGame() {
   const [isClient, setIsClient] = useState(false);
   const rightPanelRef = useRef(null);
   const batRef = useRef(null);
+  const [movementMode, setMovementMode] = useState("random");
 
   useEffect(() => {
     setIsClient(true);
-    setBatPosition({ x: 0, y: 0 });
+    setBatPosition({ x: 100, y: 100 });
   }, []);
 
   const hasLabelForInput = (inputId) => {
@@ -42,6 +43,77 @@ export default function FormLabelsGame() {
   };
 
   useEffect(() => {
+    if (movementMode !== "follow") return;
+
+    const handleMouseMove = (e) => {
+      if (!rightPanelRef.current) return;
+
+      const panel = rightPanelRef.current.getBoundingClientRect();
+      const x = e.clientX - panel.left;
+      const y = e.clientY - panel.top;
+
+      // Ensure the bat stays within bounds
+      const boundedX = Math.max(0, Math.min(x, panel.width - 128));
+      const boundedY = Math.max(0, Math.min(y, panel.height - 128));
+
+      setBatPosition({ x: boundedX, y: boundedY });
+
+      // Add collision detection
+      setTimeout(() => {
+        if (!batRef.current) return;
+        const batRect = batRef.current.getBoundingClientRect();
+        const inputs = rightPanelRef.current.querySelectorAll("input");
+
+        let isColliding = false;
+        inputs.forEach((input) => {
+          const inputRect = input.getBoundingClientRect();
+          if (
+            batRect.right > inputRect.left &&
+            batRect.left < inputRect.right &&
+            batRect.bottom > inputRect.top &&
+            batRect.top < inputRect.bottom
+          ) {
+            isColliding = true;
+            // Only check labels if code has been validated
+            if (codeValidated) {
+              const inputId = input.id;
+              const hasLabel = hasLabelForInput(inputId);
+
+              if (hasLabel) {
+                setIsValid("valid");
+                const message =
+                  inputId === "name"
+                    ? "📢 Please enter your name"
+                    : "📢 Please enter your email";
+                setScreenReaderMessage(message);
+              } else {
+                setIsValid("invalid");
+                setScreenReaderMessage("📢 Edit text, Edit text.");
+              }
+            } else {
+              setIsValid("invalid");
+              setScreenReaderMessage("📢 Edit text, Edit text.");
+            }
+            setTimeout(() => setScreenReaderMessage(""), 2000);
+          }
+        });
+
+        if (!isColliding) {
+          setIsValid("exploring");
+        }
+      }, 100);
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [movementMode, code, codeValidated]);
+
+  useEffect(() => {
+    if (movementMode !== "random") return;
+
     const moveRandomly = () => {
       if (!rightPanelRef.current) return;
 
@@ -122,7 +194,7 @@ export default function FormLabelsGame() {
 
     const interval = setInterval(moveRandomly, 3000);
     return () => clearInterval(interval);
-  }, [code, codeValidated]);
+  }, [code, codeValidated, movementMode]);
 
   const validateCode = () => {
     const hasNameLabel = hasLabelForInput("name");
@@ -241,14 +313,31 @@ export default function FormLabelsGame() {
                     Reset
                   </button>
                 </div>
-                {/* 
-                <div className="bg-gray-900/50 rounded-lg p-4">
-                  <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                    🦇 Click 'Run Code' to check your labels!
-                  </p>
-                </div> */}
-
-                {/* <ScreenReaderSimulator isValid={isValid === "valid"} /> */}
+                <div className="mt-4 flex items-center justify-between bg-gray-900/50 rounded-lg p-4">
+                  <span className="text-gray-300">Blinky's Movement Mode:</span>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => setMovementMode("random")}
+                      className={`px-4 py-2 rounded-l-lg transition-all duration-200 ${
+                        movementMode === "random"
+                          ? "bg-blue-600 text-white"
+                          : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                      }`}
+                    >
+                      🍭 Random
+                    </button>
+                    <button
+                      onClick={() => setMovementMode("follow")}
+                      className={`px-4 py-2 rounded-r-lg transition-all duration-200 ${
+                        movementMode === "follow"
+                          ? "bg-blue-600 text-white"
+                          : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                      }`}
+                    >
+                      👇 Follow Cursor
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -262,20 +351,22 @@ export default function FormLabelsGame() {
               >
                 {/* Night Animation Background */}
                 <div className="absolute inset-0 bg-[#042330]">
-                  <Lottie
-                    animationData={nightAnimation}
-                    loop
-                    style={{
-                      position: "absolute",
-                      top: "-100%",
-                      left: "-100%",
-                      width: "300%",
-                      height: "300%",
-                      pointerEvents: "none",
-                      opacity: 0.8,
-                      objectFit: "cover",
-                    }}
-                  />
+                  {isClient && (
+                    <Lottie
+                      animationData={nightAnimation}
+                      loop
+                      style={{
+                        position: "absolute",
+                        top: "-100%",
+                        left: "-100%",
+                        width: "300%",
+                        height: "300%",
+                        pointerEvents: "none",
+                        opacity: 0.8,
+                        objectFit: "cover",
+                      }}
+                    />
+                  )}
                 </div>
 
                 {/* Form Preview */}
@@ -325,6 +416,8 @@ export default function FormLabelsGame() {
             </div>
           </div>
         </div>
+
+        {/* Replace the checkbox with this toggle button */}
       </div>
     </div>
   );
