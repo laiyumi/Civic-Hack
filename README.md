@@ -1,5 +1,7 @@
 # A11Y Zoo
 
+### 🌐 Live Site: [A11y Zoo](https://civic-hack.vercel.app/)
+
 ## 🚨 Inspiration: The Accessibility Gap
 
 Web accessibility remains a critical challenge in the digital world. According to the **2024 WebAIM Million Report**, **95.9% of the homepages of the top 1 million websites** fail basic **W3C WCAG** accessibility checks, with an average of **56.8 errors per page**. Among the most common issues:
