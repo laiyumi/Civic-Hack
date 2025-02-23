@@ -8,15 +8,12 @@ export default function BurgerMenu({ code, isAccessible, onFocusChange }) {
   const menuItemRefs = useRef([]);
   const [focusIndex, setFocusIndex] = useState(-1);
 
-  // 初始化菜单项引用
   useEffect(() => {
     menuItemRefs.current = menuItemRefs.current.slice(0, 3);
   }, []);
 
-  // 监听焦点变化
   useEffect(() => {
     if (focusIndex >= 0) {
-      // 通知父组件焦点变化
       if (focusIndex === 0) {
         onFocusChange({ type: 'button', index: 0 });
       } else {
@@ -25,7 +22,6 @@ export default function BurgerMenu({ code, isAccessible, onFocusChange }) {
     }
   }, [focusIndex, onFocusChange]);
 
-  // 处理键盘事件
   const handleKeyDown = (e) => {
     if (!isAccessible) return;
 
@@ -39,11 +35,9 @@ export default function BurgerMenu({ code, isAccessible, onFocusChange }) {
       if (!isOpen) {
         setIsOpen(true);
       }
-      // 计算下一个焦点索引
       const nextIndex = (focusIndex + 1) % (isOpen ? 4 : 1);
       setFocusIndex(nextIndex);
 
-      // 设置焦点
       if (nextIndex === 0) {
         menuButtonRef.current?.focus();
       } else {
@@ -52,14 +46,12 @@ export default function BurgerMenu({ code, isAccessible, onFocusChange }) {
     }
   };
 
-  // 监听可访问性状态变化
   useEffect(() => {
     if (isAccessible) {
       menuButtonRef.current?.setAttribute('tabindex', '0');
       menuItemRefs.current.forEach(ref => {
         if (ref) ref.setAttribute('tabindex', '0');
       });
-      // 初始焦点设置在菜单按钮上
       setFocusIndex(0);
       menuButtonRef.current?.focus();
     } else {
@@ -144,7 +136,6 @@ export default function BurgerMenu({ code, isAccessible, onFocusChange }) {
               <span>
                 Menu is now keyboard accessible!
                 <br />
-                <span className="text-gray-400">Try using Tab, Enter, and Space keys</span>
               </span>
             </>
           ) : (

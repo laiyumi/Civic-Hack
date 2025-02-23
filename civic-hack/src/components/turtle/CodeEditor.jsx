@@ -7,7 +7,6 @@ export default function CodeEditor({ onChange, initialAttributes = "", initialKe
   const [keyHandler, setKeyHandler] = useState(initialKeyHandler);
   const [activeTab, setActiveTab] = useState('html'); // 'html', 'js', or 'css'
 
-  // 当 props 更新时同步状态
   useEffect(() => {
     setAttributes(initialAttributes);
     setKeyHandler(initialKeyHandler);
@@ -21,7 +20,6 @@ export default function CodeEditor({ onChange, initialAttributes = "", initialKe
     setKeyHandler(e.target.value);
   };
 
-  // 只在需要时生成完整代码
   const generateFullCode = () => {
     return `<div class="menu-toggle" onclick="toggleMenu()" onkeydown="handleKey(event)" ${attributes}>
   ☰ Today's To-dos
@@ -45,12 +43,10 @@ export default function CodeEditor({ onChange, initialAttributes = "", initialKe
 </style>`;
   };
 
-  // 当需要运行代码时调用 onChange
   const updateCode = () => {
     onChange(generateFullCode());
   };
 
-  // 监听 attributes 和 keyHandler 的变化，但不立即更新代码
   useEffect(() => {
     const timer = setTimeout(updateCode, 1000);
     return () => clearTimeout(timer);
@@ -138,28 +134,28 @@ export default function CodeEditor({ onChange, initialAttributes = "", initialKe
         )}
 
         {activeTab === 'js' && (
-          <div className="space-y-2 font-mono text-[13px] leading-6">
-            <div>
+          <div className="space-y-2 font-mono text-[13px] leading-6 overflow-x-auto">
+            <div className="flex items-center space-x-1 flex-wrap min-w-fit">
               <span className="text-violet-400">function</span>
               <span className="text-blue-300">{' toggleMenu'}</span>
               <span className="text-gray-300">{'() {'}</span>
             </div>
-            <div className="pl-4 text-gray-300">
+            <div className="pl-4 text-gray-300 flex items-center space-x-1 flex-wrap min-w-fit">
               {"document.querySelector('.menu').classList.toggle('open');"}
             </div>
             <div className="text-gray-300">{'}'}</div>
 
-            <div className="mt-4">
+            <div className="mt-4 flex items-center space-x-1 flex-wrap min-w-fit">
               <span className="text-violet-400">function</span>
               <span className="text-blue-300">{' handleKey'}</span>
               <span className="text-gray-300">{'(event) {'}</span>
             </div>
-            <div className="pl-4">
+            <div className="pl-4 w-full">
               <input
                 type="text"
                 value={keyHandler}
                 onChange={handleKeyHandlerChange}
-                className="bg-gray-800/50 text-gray-300 px-2 py-0.5 rounded focus:outline-none focus:ring-1 focus:ring-teal-500 w-full text-[13px]"
+                className="bg-gray-800/50 text-gray-300 px-2 py-0.5 rounded focus:outline-none focus:ring-1 focus:ring-teal-500 w-full text-[13px] min-w-[300px]"
                 placeholder='if (event.key === "Enter" || event.key === " ") toggleMenu();'
                 spellCheck="false"
                 autoComplete="off"
