@@ -59,10 +59,10 @@ export default function AccessibilityChallenge() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6 relative overflow-hidden">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header Section - Added Next button */}
-        <header className="text-center relative">
+        <header className="max-w-4xl mx-auto mb-12 text-center relative">
           <div className="inline-block px-3 py-1 mb-1 text-sm font-medium text-white rounded-full bg-gradient-to-r from-blue-500 to-blue-600">
             Level 1
           </div>
@@ -70,19 +70,24 @@ export default function AccessibilityChallenge() {
             🦎 Welcome to A11Y Zoo: Chameleon Mode!
           </h1>
 
-          <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Help our chameleon blend into its environment while staying{" "}
-            <span
-              className="font-semibold text-blue-400 hover:text-blue-300 transition-colors cursor-help"
-              title="Web Content Accessibility Guidelines"
-            >
-              WCAG 2.1 compliant
-            </span>
-            ! Can you strike the perfect balance between{" "}
-            <span className="font-semibold text-green-400">visibility</span> and{" "}
-            <span className="font-semibold text-purple-400">accessibility</span>
-            ?
-          </p>
+          <div className="relative backdrop-blur-sm bg-white/5 rounded-2xl p-6 border border-white/10 shadow-xl">
+            <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              Help our chameleon blend into its environment while staying{" "}
+              <span
+                className="font-semibold text-blue-400 hover:text-blue-300 transition-colors cursor-help"
+                title="Web Content Accessibility Guidelines"
+              >
+                WCAG 2.1 compliant
+              </span>
+              ! Can you strike the perfect balance between{" "}
+              <span className="font-semibold text-green-400">visibility</span>{" "}
+              and{" "}
+              <span className="font-semibold text-purple-400">
+                accessibility
+              </span>
+              ?
+            </p>
+          </div>
         </header>
 
         {/* Main Content */}
